@@ -1,7 +1,3 @@
-fastq= config["output_path"] + "/temp/{filename_stem}.fastq",
-        ref= config["references_file"]
-
-
 rule get_kraken_db:
     input:
         config['kraken_db']
@@ -30,9 +26,9 @@ rule binlorry:
         min_length= config["min_length"],
         max_length= config["max_length"],
         sample= "{filename_stem}"
-        outdir= config["output_path"]+'/binned'
+        outdir= config["output_path"]+'/temp/binned'
     output:
-        expand(config["outputPath"] + "/binned/{{sample}}_{barcode}.fastq",barcode=config["barcode"], sample="{filename_stem}")
+        expand(config["outputPath"] + "/temp/binned/{{sample}}_{barcode}.fastq",barcode=config["barcode"], sample="{filename_stem}")
     shell:
         """
         binlorry -i {input.demuxed} \
@@ -47,7 +43,7 @@ rule binlorry:
 rule kraken_classify:
     input:
         db=config["output_path"] + "/temp/classified/kraken_db",
-        binned=config["output_path"] + "/binned/{sample}_{barcode}.fastq",
+        binned=config["output_path"] + "/temp/binned/{sample}_{barcode}.fastq",
         taxonomy=config["output_path"] + "/temp/classified/taxonomy.tab"
     output:
         kraken=config["output_path"] + "/classified/barcode_{barcode}/{sample}.kraken",

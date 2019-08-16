@@ -16,3 +16,5 @@ no_split: "--no_split"
 discard_unassigned: "" #default keep unassigned, change to --discard_unassigned if you don't want to see unbarcoded reads
 demux_option: "--native_barcodes"
 
+#kraken options
+kraken_db: "/Users/rmcolq/VirusEvolution Dropbox/Rachel Colquhoun/Projects/Seawater_WIMP/db/bold"
