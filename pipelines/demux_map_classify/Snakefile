@@ -1,0 +1,19 @@
+
+##### Configuration #####
+
+barcodes = config["barcodes"]
+barcode_string = ""
+for i in barcodes:
+    barcode_string+=" {}".format(i)
+
+##### Target rules #####
+
+rule all:
+    input:
+        expand(config["output_path"]+ "/{filename_stem}.csv", filename_stem=config["filename_stem"])
+        expand(config["output_path"]+ "/classified/barcode_{barcode}/{filename_stem}.kraken", filename_stem=config["filename_stem"], barcode=barcodes)
+
+##### Modules #####
+include: "rules/demultiplex.smk"
+include: "rules/map.smk"
+include: "rules/kraken.smk"

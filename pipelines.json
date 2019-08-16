@@ -1,0 +1,15 @@
+{
+	"annotation": {
+		"name": "Annotate reads",
+		"path": "pipelines/demux_map_classify",
+		"config_file": "config.yaml",
+		"requires": [
+			{
+				"file": "references.fasta",
+				"config_key": "references_file"
+			}
+		]
+	},
+	"post-processing": [
+	]
+}
