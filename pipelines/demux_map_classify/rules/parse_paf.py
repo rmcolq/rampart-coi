@@ -35,10 +35,12 @@ def get_barcode_time(reads):
         header = parse_read_header(str(record.description))
         try:
             barcode = header["barcode"]
-            start_time = header["start_time"]
         except:
             barcode = 'none'
+        try:
             start_time = header["start_time"]
+        except:
+            start_time = 'none'
 
         header_dict[record.id]=(barcode, start_time)
         

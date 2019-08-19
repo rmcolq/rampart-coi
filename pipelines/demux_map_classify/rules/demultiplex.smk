@@ -1,6 +1,6 @@
 rule demultiplex_porechop:
     input:
-        config["input_path"] + "/{filename_stem}.fastq"
+        config["input_path"] + "{filename_stem}.fastq"
     params:
     #Can overwrite all of these parameters at the command line when you call snakemake
         require_two_barcodes=config["require_two_barcodes"],
@@ -8,11 +8,11 @@ rule demultiplex_porechop:
         no_split=config["no_split"],
         discard_unassigned=config["discard_unassigned"],
         native_barcodes = config["demux_option"],
-        barcodes = barcode_string
+        barcodes = barcode_string,
     threads:
         2
     output:
-        temp(config["output_path"] + "/temp/{filename_stem}.fastq")
+        temp(config["output_path"] + "temp/{filename_stem}.fastq")
     shell:
         "porechop --verbosity 0 "
         "-i {input} "

@@ -6,7 +6,7 @@ input_path: path/to/data #where rampart will find the data
 output_path: path/to/data #where rampart will put the data
 
 #For mapping
-references_file: workflow.current_basedir + "/references.fasta"
+references_file: workflow.current_basedir + "/references.fasta.gz"
 
 #The following are all porechop options
 require_two_barcodes: "--require_two_barcodes"
@@ -18,7 +18,8 @@ demux_option: "--native_barcodes"
 #For binlorry
 min_length: 1
 max_length: 100000
-barcodes: [NBXX,NBYY]
+barcodes: [none]
 
 #kraken options
 kraken_db: "/Users/rmcolq/VirusEvolution Dropbox/Rachel Colquhoun/Projects/Seawater_WIMP/db/bold"
+#workflow.current_basedir + "/kraken_db/bold"
