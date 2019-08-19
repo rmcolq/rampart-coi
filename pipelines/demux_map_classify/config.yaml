@@ -9,12 +9,16 @@ output_path: path/to/data #where rampart will put the data
 references_file: workflow.current_basedir + "/references.fasta"
 
 #The following are all porechop options
-
 require_two_barcodes: "--require_two_barcodes"
 discard_middle: "--discard_middle"
 no_split: "--no_split"
 discard_unassigned: "" #default keep unassigned, change to --discard_unassigned if you don't want to see unbarcoded reads
 demux_option: "--native_barcodes"
+
+#For binlorry
+min_length: 1
+max_length: 100000
+barcodes: [NBXX,NBYY]
 
 #kraken options
 kraken_db: "/Users/rmcolq/VirusEvolution Dropbox/Rachel Colquhoun/Projects/Seawater_WIMP/db/bold"

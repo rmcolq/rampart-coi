@@ -25,10 +25,10 @@ rule binlorry:
     params:
         min_length= config["min_length"],
         max_length= config["max_length"],
-        sample= "{filename_stem}"
-        outdir= config["output_path"]+'/temp/binned'
+        sample= "{filename_stem}",
+        outdir= config["output_path"]+"/temp/binned",
     output:
-        expand(config["outputPath"] + "/temp/binned/{{sample}}_{barcode}.fastq",barcode=config["barcode"], sample="{filename_stem}")
+        expand(config["output_path"] + "/temp/binned/{{sample}}_{barcode}.fastq",barcode="{barcode}", sample="{filename_stem}")
     shell:
         """
         binlorry -i {input.demuxed} \

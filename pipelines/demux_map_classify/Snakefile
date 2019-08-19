@@ -11,7 +11,7 @@ for i in barcodes:
 rule all:
     input:
         expand(config["output_path"]+ "/{filename_stem}.csv", filename_stem=config["filename_stem"])
-        expand(config["output_path"]+ "/classified/barcode_{barcode}/{filename_stem}.kraken", filename_stem=config["filename_stem"], barcode=barcodes)
+        expand(config["output_path"]+ "/classified/barcode_{barcode}/{filename_stem}.kraken", filename_stem=config["filename_stem"], barcode=config["barcodes"])
 
 ##### Modules #####
 include: "rules/demultiplex.smk"
