@@ -12,7 +12,7 @@ source activate rampart-wimp
 3. Build kraken database (takes about 10 minutes)
 ```           
 cd kraken_db/
-bash bash create_db.sh 
+bash create_db.sh 
 cd ..
 ```
 4. Run and have fun, e.g.
