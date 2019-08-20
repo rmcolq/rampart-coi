@@ -1,0 +1,2 @@
+kraken_db/data/BOLD-Animalia-COI5p.fasta.gz filter=lfs diff=lfs merge=lfs -text
+references.fasta.gz filter=lfs diff=lfs merge=lfs -text
