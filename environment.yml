@@ -1,4 +1,4 @@
-name: rampart-wimp
+name: rampart-coi
 channels:
   - bioconda
   - conda-forge
