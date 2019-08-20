@@ -20,12 +20,15 @@ rule kraken_classify:
         kraken=temp(config["output_path"] + "classified/barcode_{barcode}/{filename_stem}.kraken"),
     params:
         barcode="{barcode}",
+        filename_stem="{filename_stem}",
         outdir=config["output_path"] + "classified/barcode_{barcode}",
         classified=config["output_path"] + "classified"
     shell:
         """
         mkdir -p {params.outdir}
         kraken2 --db {input.db} \
+            --report {params.outdir}/{params.filename_stem}.kreport2 \
+            --classified-out {params.outdir}/{params.filename_stem}.classified \
             --memory-mapping \
             {input.binned} \
             > {output.kraken};
