@@ -1,0 +1,10 @@
+#Where is the data and where should it be put
+
+input_path: path/to/data #where rampart will find the data
+output_path: path/to/data #where rampart will put the data
+
+#Barcode format BCXX
+barcodes: NB01,none
+
+#List of comma separated taxa to process
+taxa: Noctuoidea
