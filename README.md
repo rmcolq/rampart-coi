@@ -18,5 +18,8 @@ cd ..
 4. Run and have fun, e.g.
 ```
 cd example_data/millport
-node ../../../../rampart.js --basecalledPath basecalled/pass --annotatedPath annotated --protocol ../../../rampart-coi
+node ../../../../rampart.js 
+  --basecalledPath basecalled/pass 
+  --annotatedPath annotated 
+  --protocol ../../../rampart-coi
 ```
