@@ -4,10 +4,10 @@
 		"path": "pipelines/demux_map_classify",
 		"config_file": "config.yaml",
 		"requires": [
-			{
-				"file": "references.fasta",
-				"config_key": "references_file"
-			}
+                    {
+                        "file": "references.fasta.gz",
+                        "config_key": "references_file"
+                    }
 		]
 	},
 	"post-processing": [

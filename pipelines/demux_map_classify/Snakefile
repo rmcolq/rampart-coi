@@ -1,13 +1,22 @@
 
 ##### Configuration #####
 
-BARCODES = config["barcodes"]
+BARCODES = config["barcodes"].split(',')
+
 barcode_string = ""
 for i in BARCODES:
-    barcode_string+=" {}".format(i)
-BARCODES.append('none')
-barcode_string_with_none = barcode_string + " none"
+    barcode_string+=" {}".format(i.lstrip("NB").lstrip("BC").lstrip("barcode"))
 
+BARCODES.append('none')
+barcode_string_with_none = ""
+for i in BARCODES:
+    barcode_string_with_none+=" {}".format(i)
+
+if config["references_file"][0] != "/":
+    config["references_file"] = workflow.basedir + "/../../" + config["references_file"]
+
+if config["kraken_db"][0] != "/":
+    config["kraken_db"] = workflow.basedir + "/../../" + config["kraken_db"]
 ##### Target rules #####
 
 rule all:

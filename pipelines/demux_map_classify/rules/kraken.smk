@@ -1,6 +1,6 @@
 rule prepare_krona:
     output:
-        config["output_path"] + "temp/classified/taxonomy.tab"
+        temp(config["output_path"] + "temp/classified/taxonomy.tab")
     shell:
         """
         if [ ! -f {output} ]; then
@@ -17,19 +17,21 @@ rule kraken_classify:
         binned=config["output_path"] + "temp/binned/{filename_stem}_{barcode}.fastq",
         taxonomy=config["output_path"] + "temp/classified/taxonomy.tab"
     output:
-        kraken=config["output_path"] + "classified/barcode_{barcode}/{filename_stem}.kraken",
+        kraken=temp(config["output_path"] + "classified/barcode_{barcode}/{filename_stem}.kraken"),
     params:
-        barcode="{barcode}"
+        barcode="{barcode}",
+        outdir=config["output_path"] + "classified/barcode_{barcode}",
+        classified=config["output_path"] + "classified"
     shell:
         """
-        mkdir -p config["output_path"] + "classified/barcode_{params.barcode}"
+        mkdir -p {params.outdir}
         kraken2 --db {input.db} \
             --memory-mapping \
             {input.binned} \
             > {output.kraken};
-        cat {output.kraken} >> config["output_path"] + "classified/barcode_{params.barcode}/barcode_{params.barcode}.kraken;
+        cat {output.kraken} >> {params.outdir}/barcode_{params.barcode}.kraken;
         ktImportTaxonomy \
-            -q 2 -t 3 config["output_path"] + "classified/*/barcode_*.kraken \
-            -o config["output_path"] + "classified/all_krona.html \
-            &> config["output_path"] + "classified/krona.log
+            -q 2 -t 3 {params.classified}/*/barcode_*.kraken \
+            -o {params.classified}/all_krona.html \
+            &> {params.classified}/krona.log
         """
