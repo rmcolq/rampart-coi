@@ -23,6 +23,8 @@ rule kraken_classify:
         filename_stem="{filename_stem}",
         outdir=config["output_path"] + "classified/barcode_{barcode}",
         classified=config["output_path"] + "classified"
+    threads:
+        2
     shell:
         """
         mkdir -p {params.outdir}
