@@ -1,2 +1,4 @@
 kraken_db/bold/
-kraken_db/data/BOLD-Animalia-COI5p.fasta
+kraken_db/data/BOLD-Animalia-COI5p.fasta*
+references.fasta.gz
+example_data/millport/*
