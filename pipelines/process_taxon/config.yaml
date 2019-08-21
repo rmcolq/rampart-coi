@@ -3,6 +3,10 @@
 input_path: path/to/data #where rampart will find the data
 output_path: path/to/data #where rampart will put the data
 
+#Binlorry params
+min_length: 1
+max_length: 10000
+
 #Barcode format BCXX
 barcodes: NB01,none
 
