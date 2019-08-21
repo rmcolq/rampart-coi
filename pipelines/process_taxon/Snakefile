@@ -7,7 +7,7 @@ TAXA = config["taxa"].split(",")
 
 rule all:
     input:
-        expand(config["output_path"] + "taxon/barcode_{barcode}/{taxon}.ids", barcode=BARCODES, taxon=TAXA),
+        expand(config["output_path"] + "taxon/barcode_{barcode}/{taxon}.fastq", barcode=BARCODES, taxon=TAXA),
 
 ##### Modules #####
 include: "rules/bin.smk"

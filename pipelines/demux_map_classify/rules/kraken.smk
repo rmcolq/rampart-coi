@@ -28,7 +28,7 @@ rule kraken_classify:
         mkdir -p {params.outdir}
         kraken2 --db {input.db} \
             --report {params.outdir}/{params.filename_stem}.kreport2 \
-            --classified-out {params.outdir}/{params.filename_stem}.classified \
+            --classified-out {params.outdir}/{params.filename_stem}.fastq \
             --memory-mapping \
             {input.binned} \
             > {output.kraken};
