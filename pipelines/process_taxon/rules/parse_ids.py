@@ -22,32 +22,30 @@ def is_sub_order(taxon1, taxon2):
     return False 
 
 def get_ids_from_file(infile, taxon):
-    taxids = []
+    taxids = set()
+    found_taxon = False
     with open(infile, "r") as f:
         for line in f:
             if not found_taxon and taxon in line:
                 found_taxon = True
                 taxon_order = line.split()[3]
                 taxids.add(line.split()[4])
-                print(line, found_taxon, taxon_order)
             elif found_taxon:
                 current_taxon_order = line.split()[3]
                 if is_sub_order(taxon_order, current_taxon_order):
-                    print(line)
                     taxids.add(line.split()[4])
                 else:
-                    print(taxon_order, current_taxon_order, is_sub_order(taxon_order, current_taxon_order))
-                    print(taxids)
                     return taxids
 
 def parse_ids(indir, taxon):
     list_kraken_files = glob.glob("%s/*.kreport2" %indir)
-    print(list_kraken_files)
 
     taxids = set()
 
     for f in list_kraken_files:
-        taxids.add(get_ids_from_file(f,taxon))
+        taxids.update(get_ids_from_file(f,taxon))
+    
+    print(" ".join(taxids))
 
 parser = argparse.ArgumentParser(description='Get list of kraken ids relevant to a taxon name')
 parser.add_argument('--indir',
