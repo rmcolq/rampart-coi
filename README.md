@@ -10,9 +10,10 @@ conda env create -f environment.yml
 source activate rampart-coi
 ```
 3. Build kraken database (takes about 10 minutes)
+   
    First copy two big files   
-   - `BOLD-Animalia-COI5p_old.fasta`  
-   - `NCBI_Animalia_BOLD_COI_250819.fasta`
+     - `BOLD-Animalia-COI5p_old.fasta`  
+     - `NCBI_Animalia_BOLD_COI_250819.fasta`
    from dropbox to `kraken_db/data`
       
 ```           
