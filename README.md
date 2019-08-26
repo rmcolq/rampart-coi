@@ -1,5 +1,11 @@
 # rampart-coi
-RAMPART protocol for classifier
+RAMPART protocol for classifier. This currently assumes that you have already downloaded and installed [RAMPART](https://github.com/rmcolq/rampart/tree/isolated_from_bioinformatics) (this branch has a couple of different parameters set to enable metagenomic heatmaps).
+Inside the RAMPART directory, create a subdirectory called `protocols` and clone this repository.
+```
+cd protocols
+git clone https://github.com/rmcolq/rampart-coi.git
+```
+
 
 1. Setup conda environment
 ```
