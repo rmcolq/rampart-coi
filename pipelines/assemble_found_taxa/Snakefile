@@ -9,8 +9,7 @@ for taxon in config["taxa"].split(","):
 
 rule all:
     input:
-        expand(config["output_path"] + "taxon/barcode_{barcode}/{taxon}.fastq", barcode=BARCODES, taxon=TAXA),
-        expand(config["output_path"] + "taxids/barcode_{barcode}", barcode=BARCODES),
+        expand(config["output_path"] + "taxids/barcode_{barcode}/config.yaml", barcode=BARCODES),
 
 ##### Modules #####
 include: "rules/bin.smk"

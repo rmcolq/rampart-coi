@@ -18,5 +18,5 @@ dependencies:
   - pip=19.1
   - pip:
     - msgpack==0.5.6
-    - binlorry==1.0.0
+    - binlorry==1.1.0
 
