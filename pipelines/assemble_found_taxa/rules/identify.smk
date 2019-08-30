@@ -7,18 +7,20 @@ rule make_config:
         min_length=config["min_length"],
         max_length=config["max_length"],
         min_count=config["min_count"],
+        barcode="{barcode}",
     output:
         config["output_path"] + "taxids/barcode_{barcode}/config.yaml"
     shell:
         """
         mkdir -p {params.outdir}
-        echo "output_path: {params.outdir}" >> {params.outdir}/config.yaml
-        echo "min_length: {params.min_length}" >> {params.outdir}/config.yaml
-        echo "max_length: {params.max_length}" >> {params.outdir}/config.yaml
 
         taxids=$(python3 {params.path_to_script}/filter_by_count.py \
             --indir {input} \
             --min_count {params.min_count})
+
+        cp "{params.path_to_script}/../config.yaml" {params.outdir}/config.yaml
+        echo "barcode: {params.barcode}" >> {params.outdir}/config.yaml
+
         python3 {params.path_to_script}/taxid_to_taxa.py \
                 --indir {input} \
                 --taxids $taxids >> {params.outdir}/config.yaml

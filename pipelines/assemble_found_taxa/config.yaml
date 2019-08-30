@@ -10,7 +10,9 @@ max_length: 10000
 #Barcode format BCXX
 barcodes: NB01,none
 
-#List of comma separated taxa to process
-taxa: Noctuoidea
-
 min_count: 100
+
+kraken_fasta: 
+
+taxon_names: 
+taxids: 

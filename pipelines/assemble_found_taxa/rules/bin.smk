@@ -1,42 +1,60 @@
-configfile: config["output_path"] + "taxids/barcode_{barcode}/config.yaml"
+TAXA = config["taxon_names"].split(" ")
+TAXIDS = config["taxids"].split(" ")
 
-rule bin_by_taxids:
+rule bin:
+    input:
+        expand(config["output_path"] + "binned/barcode_{barcode}/list_binned_fastq", barcode=config["barcode"])
+
+rule bin_barcode:
+    input:
+        expand(config["output_path"] + "binned/barcode_{{barcode}}/{taxon}_{taxid}.fastq", zip, taxon=TAXA, taxid=TAXIDS),
+        expand(config["output_path"] + "refs/barcode_{{barcode}}/{taxon}_{taxid}.fasta", zip, taxon=TAXA, taxid=TAXIDS),
+    params:
+        output_path=config["output_path"],
+        barcode="{barcode}"
+    output:
+        config["output_path"] + "binned/barcode_{barcode}/list_binned_fastq"
+    shell:
+        """
+        ls {params.output_path}/binned/barcode_{params.barcode}/*_*.fastq > {output}
+        """
+
+rule bin_by_taxid:
     input:
         config["output_path"] + "classified/barcode_{barcode}"
     params:
-        path_to_script= workflow.current_basedir,
-        outdir=config["output_path"] + "taxids/barcode_{barcode}",
+        outdir=config["output_path"] + "binned/barcode_{barcode}",
         min_length=config["min_length"],
         max_length=config["max_length"],
-        min_count=config["min_count"],
+        taxid="{taxid}",
+        taxon="{taxon}",
     output:
-        config["output_path"] + "taxids/barcode_{barcode}/config.yaml"
+        binned=config["output_path"] + "binned/barcode_{barcode}/{taxon}_{taxid}.fastq"       
+    shell:
+        """
+        binlorry -i {input} \
+          -n {params.min_length} \
+          -x {params.max_length} \
+          --output {params.outdir}/{params.taxon} \
+          --bin-by kraken:taxid \
+          --filter-by kraken:taxid {params.taxid} \
+          -d "|="
+        """
+
+rule get_taxid_ref:
+    params:
+        kraken_fasta=config["kraken_fasta"],
+        outdir=config["output_path"] + "refs/barcode_{barcode}",
+        barcode="{barcode}",
+        taxid="{taxid}",
+        taxon="{taxon}",
+    output:
+        config["output_path"] + "refs/barcode_{barcode}/{taxon}_{taxid}.fasta"         
     shell:
         """
         mkdir -p {params.outdir}
-        taxids=$(python3 {params.path_to_script}/filter_by_count.py \
-            --indir {input} \
-            --min_count {params.min_count})
-        echo $taxids
-        for id in $taxids
-        do
-          names=$(python3 {params.path_to_script}/taxid_to_taxa.py \
-                --indir {input} \
-                --taxids $id)
-          echo $names
-          for name in $names
-          do
-            binlorry -i {input} \
-              -n {params.min_length} \
-              -x {params.max_length} \
-              --output {params.outdir}/$name \
-              --bin-by kraken:taxid \
-              --filter-by kraken:taxid $id \
-              -d "|="
-          done
-        done
-        echo "output_path: {params.outdir}" >> {params.outdir}/config.yaml
-        echo "taxids: $taxids" >> {params.outdir}/config.yaml
-        echo "taxon_names: $names" >> {params.outdir}/config.yaml
+        grep -A1 "kraken:taxid|{params.taxid}" {params.kraken_fasta} > {output}.tmp
+        head -n2 {output}.tmp > {output}
+        rm {output}.tmp
         """
 

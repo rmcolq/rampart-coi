@@ -1,16 +1,16 @@
 rule minimap2_racon0:
     input:
-        reads=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{taxid}.fastq",
-        ref=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{taxid}.fasta",
+        reads=config["output_path"] + "/binned_{sample}/{analysis_stem}.fastq",
+        ref=config["output_path"] + "/binned_{sample}/{analysis_stem}.fasta"
     output:
-        config["output_path"] + "/binned/barcode_{barcode}/polishing/{analysis_stem}/mapped.paf"
+        config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/mapped.paf"
     shell:
         "minimap2 -x map-ont {input.ref} {input.reads} > {output}"
 
 rule racon1:
     input:
-        reads=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{taxid}.fastq",
-        fasta=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{taxid}.fasta",
+        reads=config["output_path"]+"/binned_{sample}/{analysis_stem}.fastq",
+        fasta=config["output_path"] + "/binned_{sample}/{analysis_stem}.fasta",
         paf= config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/mapped.paf"
     output:
         config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/racon1.fasta"
@@ -19,7 +19,7 @@ rule racon1:
 
 rule minimap2_racon1:
     input:
-        reads=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{taxid}.fastq",
+        reads=config["output_path"]+"/binned_{sample}/{analysis_stem}.fastq",
         ref= config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/racon1.fasta"
     output:
         config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/mapped.racon1.paf"
@@ -28,7 +28,7 @@ rule minimap2_racon1:
 
 rule racon2:
     input:
-        reads=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{taxid}.fastq",
+        reads=config["output_path"]+"/binned_{sample}/{analysis_stem}.fastq",
         fasta= config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/racon1.fasta",
         paf= config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/mapped.racon1.paf"
     output:
@@ -39,7 +39,7 @@ rule racon2:
 
 rule minimap2_racon2:
     input:
-        reads=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{taxid}.fastq",
+        reads=config["output_path"]+"/binned_{sample}/{analysis_stem}.fastq",
         ref= config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/racon2.fasta"
     output:
         config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/mapped.racon2.paf"
@@ -48,7 +48,7 @@ rule minimap2_racon2:
 
 rule racon3:
     input:
-        reads=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{taxid}.fastq",
+        reads=config["output_path"]+"/binned_{sample}/{analysis_stem}.fastq",
         fasta= config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/racon2.fasta",
         paf= config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/mapped.racon2.paf"
     output:
@@ -59,7 +59,7 @@ rule racon3:
 
 rule minimap2_racon3:
     input:
-        reads=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{taxid}.fastq",
+        reads=config["output_path"]+"/binned_{sample}/{analysis_stem}.fastq",
         ref= config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/racon3.fasta"
     output:
         config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/mapped.racon3.paf"
@@ -68,7 +68,7 @@ rule minimap2_racon3:
 
 rule racon4:
     input:
-        reads=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{taxid}.fastq",
+        reads=config["output_path"]+"/binned_{sample}/{analysis_stem}.fastq",
         fasta= config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/racon3.fasta",
         paf= config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/mapped.racon3.paf"
     output:
@@ -78,7 +78,7 @@ rule racon4:
 
 rule minimap2_racon4:
     input:
-        reads=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{taxid}.fastq",
+        reads=config["output_path"]+"/binned_{sample}/{analysis_stem}.fastq",
         ref= config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/racon4.fasta"
     output:
         config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/mapped.racon4.paf"
@@ -89,7 +89,7 @@ rule medaka:
     input:
         # basecalls=config["output_path"] + "/binned_{sample}/{analysis_stem}.fastq",
         # draft=config["output_path"] + "/binned_{sample}/{analysis_stem}.fasta"
-        basecalls=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{{taxid}}.fastq",
+        basecalls=config["output_path"]+"/binned_{sample}/{analysis_stem}.fastq",
         draft= config["output_path"] + "/binned_{sample}/polishing/{analysis_stem}/racon4.fasta"
     params:
         outdir=config["output_path"] + "/binned_{sample}/medaka/{analysis_stem}"
@@ -102,7 +102,7 @@ rule medaka:
 
 rule minimap2_medaka:
     input:
-        reads=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{taxid}.fastq",
+        reads=config["output_path"]+"/binned_{sample}/{analysis_stem}.fastq",
         ref= config["output_path"] + "/binned_{sample}/{amplicon}/medaka/consensus.fasta"
     output:
         config["output_path"] + "/binned_{sample}/{amplicon}/medaka/consensus.mapped.sam"
@@ -116,4 +116,3 @@ rule gather_sequences:
         config["output_path"]+"/consensus_sequences/{sample}.fasta"
     shell:
         "cat {input} > {output}"
-

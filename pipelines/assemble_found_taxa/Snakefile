@@ -1,15 +1,49 @@
+configfile: workflow.current_basedir + "/config.yaml"
 
 ##### Configuration #####
 BARCODES = config["barcodes"].split(",")
-TAXA = []
-for taxon in config["taxa"].split(","):
-    TAXA.append("_".join(taxon.split()))
 
 ##### Target rules #####
 
 rule all:
     input:
-        expand(config["output_path"] + "taxids/barcode_{barcode}/config.yaml", barcode=BARCODES),
+        expand(config["output_path"] + "binned/barcode_{barcode}/list_binned_fastq", barcode=BARCODES),
+
+rule bin_barcode_by_taxid:
+    input:
+        config["output_path"] + "taxids/barcode_{barcode}/config.yaml"
+    params:
+        path_to_script= workflow.current_basedir,
+        output_path= config["output_path"],
+        min_length = config["min_length"],
+        max_length = config["max_length"],
+        kraken_fasta = config["kraken_fasta"],
+        barcode = "{barcode}"
+    output:
+        config["output_path"] + "binned/barcode_{barcode}/list_binned_fastq"
+    shell:
+        """
+        snakemake --nolock --snakefile {params.path_to_script}/rules/bin.smk \
+        --configfile {input} \
+        --config \
+        output_path={params.output_path} \
+        min_length={params.min_length} \
+        max_length={params.max_length} \
+        kraken_fasta={params.kraken_fasta} \
+        barcode={params.barcode}
+        """
+
+#rule make_consensus:
+#    input:
+#        config=config["output_path"] + "/taxids/barcode_{barcode}/config.yaml"
+#    output:
+#        config["output_path"] + "taxids/barcode_{barcode}/list_binned_fastq"
+#    shell:
+#        """
+#        snakemake --nolock --snakefile rules/bin.smk \
+#        --configfile {input.config}
+#        """
 
 ##### Modules #####
-include: "rules/bin.smk"
+include: "rules/identify.smk"
+#include: "rules/bin.smk"

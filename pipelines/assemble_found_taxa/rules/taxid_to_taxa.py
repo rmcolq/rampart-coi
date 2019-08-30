@@ -31,7 +31,7 @@ def parse_ids(indir, taxids, min_level):
                 break
     
     print("taxon_names:"," ".join([taxa[taxid] for taxid in taxa]))
-    print("taxids:"," ".join([taxid for taxid in taxa]))
+    print("taxids:"," ".join([str(taxid) for taxid in taxa]))
 
 parser = argparse.ArgumentParser(description='Get list of kraken ids relevant to a taxon name')
 parser.add_argument('--indir',
