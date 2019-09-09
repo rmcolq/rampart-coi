@@ -36,3 +36,13 @@ node ../../../../rampart.js
   --protocol ../../../rampart-coi
   --referencesPath ../../BOLD_COI_references_by_phylum.fasta.gz 
 ```
+NB you need to run this from your run directory and have a `run_configuration.json` file in this local directory.
+To view and explore the Krona plot, open `annotations/classified/all_krona.html` in your browser.
+6. Assemble the classified sequences where more than 100 reads have mapped to a species, e.g.
+```
+snakemake 
+  --snakefile /path/to/rampart-coi/pipelines/assemble_found_taxa/Snakefile 
+  --configfile /path/to/rampart-coi/pipelines/assemble_found_taxa/config.yaml 
+  --config output_path=annotations/ 
+  kraken_fasta=/path/to/rampart-coi/kraken_db/data/BOLD-Animalia-COI5p_old.fasta 
+```
