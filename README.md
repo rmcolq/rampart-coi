@@ -38,6 +38,7 @@ node ../../../../rampart.js
 ```
 NB you need to run this from your run directory and have a `run_configuration.json` file in this local directory.
 To view and explore the Krona plot, open `annotations/classified/all_krona.html` in your browser.
+
 6. Assemble the classified sequences where more than 100 reads have mapped to a species, e.g.
 ```
 snakemake 
