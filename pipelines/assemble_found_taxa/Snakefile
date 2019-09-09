@@ -8,10 +8,11 @@ BARCODES = config["barcodes"].split(",")
 rule all:
     input:
         expand(config["output_path"] + "binned/barcode_{barcode}/list_binned_fastq", barcode=BARCODES),
+        expand(config["output_path"] + "assembled/barcode_{barcode}/list_assembled_fastq", barcode=BARCODES),
 
 rule bin_barcode_by_taxid:
     input:
-        config["output_path"] + "taxids/barcode_{barcode}/config.yaml"
+        config["output_path"] + "binned/barcode_{barcode}/config.yaml"
     params:
         path_to_script= workflow.current_basedir,
         output_path= config["output_path"],
@@ -33,17 +34,23 @@ rule bin_barcode_by_taxid:
         barcode={params.barcode}
         """
 
-#rule make_consensus:
-#    input:
-#        config=config["output_path"] + "/taxids/barcode_{barcode}/config.yaml"
-#    output:
-#        config["output_path"] + "taxids/barcode_{barcode}/list_binned_fastq"
-#    shell:
-#        """
-#        snakemake --nolock --snakefile rules/bin.smk \
-#        --configfile {input.config}
-#        """
+rule assemble_barcode_by_taxid:
+    input:
+        config["output_path"] + "binned/barcode_{barcode}/config.yaml"
+    params:
+        path_to_script= workflow.current_basedir,
+        output_path= config["output_path"],
+        barcode = "{barcode}"
+    output:
+        config["output_path"] + "assembled/barcode_{barcode}/list_assembled_fastq"
+    shell:
+        """
+        snakemake --nolock --snakefile {params.path_to_script}/rules/consensus2.smk \
+        --configfile {input} \
+        --config \
+        output_path={params.output_path} \
+        barcode={params.barcode}
+        """
 
 ##### Modules #####
 include: "rules/identify.smk"
-#include: "rules/bin.smk"

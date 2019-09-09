@@ -1,34 +1,38 @@
 TAXA = config["taxon_names"].split(" ")
 TAXIDS = config["taxids"].split(" ")
 
-rule bin:
+rule assemble:
     input:
-        expand(config["output_path"] + "binned/barcode_{barcode}/list_binned_fastq", barcode=config["barcode"])
+        expand(config["output_path"] + "assembled/barcode_{barcode}/list_assembled_fastq", barcode=config["barcode"])
 
-rule bin_barcode:
+rule assemble_barcode:
     input:
-        expand(config["output_path"] + "binned/barcode_{{barcode}}/{taxon}_{taxid}.fastq", zip, taxon=TAXA, taxid=TAXIDS),
+        expand(config["output_path"] + "assembled/barcode_{{barcode}}/{taxon}_{taxid}/racon1.fasta", zip, taxon=TAXA, taxid=TAXIDS),
     params:
         output_path=config["output_path"],
-        barcode="{barcode}"
+        barcode="{barcode}",
     output:
-        config["output_path"] + "binned/barcode_{barcode}/list_binned_fastq"
+        config["output_path"] + "assembled/barcode_{barcode}/list_assembled_fastq"
     shell:
         """
-        ls {params.output_path}/binned/barcode_{params.barcode}/*_*.fastq > {output}
+        ls {params.output_path}/assembled/barcode_{params.barcode}/*_*/racon1.fasta > {output}
         """
 
-rule get_taxid_ref:
+rule minimap2_racon0:
     input:
-        config["output_path"] + "classified/barcode_{barcode}"
-    params:
-        kraken_fasta=config["kraken_fasta"],
-        outdir=config["output_path"] + "refs/barcode_{barcode}",
-        taxid="{taxid}",
-        taxon="{taxon}",
+        reads=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{taxid}.fastq",
+        ref=config["output_path"] + "/assembled/barcode_{barcode}/{taxon}_{taxid}/ref.fasta",
     output:
-        config["output_path"] + "refs/barcode_{barcode}/{taxon}_{taxid}.fastq"       
+        config["output_path"] + "/assembled/barcode_{barcode}/{taxon}_{taxid}/mapped.paf"
     shell:
-        """
-        grep -A1 "kraken:taxid|{params.taxon}" {params.kraken_fasta} | head -n2
-        """
+        "minimap2 -x map-ont {input.ref} {input.reads} > {output}"
+
+rule racon1:
+    input:
+        reads=config["output_path"] + "/binned/barcode_{barcode}/{taxon}_{taxid}.fastq",
+        fasta=config["output_path"] + "/assembled/barcode_{barcode}/{taxon}_{taxid}/ref.fasta",
+        paf= config["output_path"] + "/assembled/barcode_{barcode}/{taxon}_{taxid}/mapped.paf"
+    output:
+        config["output_path"] + "/assembled/barcode_{barcode}/{taxon}_{taxid}/racon1.fasta"
+    shell:
+        "../racon/build/bin/racon --no-trimming -t 1 {input.reads} {input.paf} {input.fasta} > {output}"

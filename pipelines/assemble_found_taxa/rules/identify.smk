@@ -1,15 +1,15 @@
-rule make_config:
+rule make_bin_config:
     input:
         config["output_path"] + "classified/barcode_{barcode}"
     params:
         path_to_script= workflow.current_basedir,
-        outdir=config["output_path"] + "taxids/barcode_{barcode}",
+        outdir=config["output_path"] + "binned/barcode_{barcode}",
         min_length=config["min_length"],
         max_length=config["max_length"],
         min_count=config["min_count"],
         barcode="{barcode}",
     output:
-        config["output_path"] + "taxids/barcode_{barcode}/config.yaml"
+        config["output_path"] + "binned/barcode_{barcode}/config.yaml"
     shell:
         """
         mkdir -p {params.outdir}
