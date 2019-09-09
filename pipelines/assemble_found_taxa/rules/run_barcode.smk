@@ -3,8 +3,8 @@ TAXIDS = config["taxids"].split(" ")
 
 rule bin_assemble:
     input:
-        expand(config["output_path"] + "binned/barcode_{barcode}/list_binned_fastq", barcode=config["barcode"]),
-        expand(config["output_path"] + "assembled/barcode_{barcode}/list_assembled_fastq", barcode=config["barcode"]),
+        #expand(config["output_path"] + "binned/barcode_{barcode}/list_binned_fastq", barcode=config["barcode"]),
+        expand(config["output_path"] + "assembled/barcode_{barcode}/assembled.fastq", barcode=config["barcode"]),
 
 rule bin_barcode:
     input:
@@ -29,12 +29,12 @@ rule assemble_barcode:
         output_path=config["output_path"],
         barcode="{barcode}",
     output:
-        config["output_path"] + "assembled/barcode_{barcode}/list_assembled_fastq"
+        config["output_path"] + "assembled/barcode_{barcode}/assembled.fastq"
     shell:
         """
-        ls {params.output_path}/assembled/barcode_{params.barcode}/*_*/medaka/consensus.fasta > {output}
+        cat {params.output_path}/assembled/barcode_{params.barcode}/*_*/medaka/consensus.fasta > {output}
         """
 
 ##### Modules #####
 include: "bin.smk"
-include: "consensus2.smk"
+include: "consensus.smk"
