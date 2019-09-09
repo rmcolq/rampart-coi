@@ -17,6 +17,9 @@ dependencies:
   - nodejs=10.4.1
   - curl
   - cmake
+  - numpy=1.16
+  - coreutils=8.25
+  - medaka
   - pip=19.1
   - pip:
     - msgpack==0.5.6
