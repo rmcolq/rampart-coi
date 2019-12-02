@@ -69,7 +69,7 @@ Open `/path/to/[run_name]/annotations/classified/all_krona.html` in a second bro
 
 ```
 cd example_data/millport
-node ../../../../rampart.js 
+rampart
   --protocol ../../../rampart-coi
   --basecalledPath basecalled/pass 
   --referencesPath ../../BOLD_COI_references_by_phylum.fasta.gz 
