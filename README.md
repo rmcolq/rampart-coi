@@ -55,7 +55,6 @@ Create a basic `run_configuration.json` file in this run directory, e.g.
   ]
 }
 ```
-NB This must contain at least one sample with a specified barcode. If this is an unbarcoded run, use the dummy sample from the example config.
 
 Run RAMPART from this run directory:
 ```
@@ -63,7 +62,8 @@ rampart --protocol /path/to/rampart-coi
 ```
 
 Open a web browser to view http://localhost:3000 the RAMPART run.
-Open `/path/to/[run_name]/annotations/classified/all_krona.html` in a second browser tab. Refresh this page periodically to view the latest krona results as they come in.
+
+Open `/path/to/[run_name]/annotations/classified/all_krona.html` in a second browser tab. Refresh this page periodically to view the latest krona results as they come in. NB this file does not exist until the pipeline is running.
 
 ## Example dataset
 
