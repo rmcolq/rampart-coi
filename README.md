@@ -48,7 +48,7 @@ Create a basic `run_configuration.json` file in this run directory, e.g.
   "basecalledPath": "~/MinKNOW/data/reads/[run_name]/pass",
   "samples": [
     {
-      "name": "Dummy",
+      "name": "Sample1",
       "description": "",
       "barcodes": [ "NB01" ]
     }
