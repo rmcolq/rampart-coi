@@ -2,10 +2,5 @@
   "title": "Millport metagenomic run",
   "basecalledPath": "basecalled/pass",
   "samples": [
-    {
-      "name": "Seawater",
-      "description": "",
-      "barcodes": [ "NB01" ]
-    }
   ]
 }
