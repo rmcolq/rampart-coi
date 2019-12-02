@@ -8,7 +8,7 @@ min_length: 1
 max_length: 10000
 
 #Barcode format BCXX
-barcodes: NB01,none
+barcodes: none
 
 min_count: 100
 

@@ -5,7 +5,11 @@ rule minimap2_racon0:
     output:
         config["output_path"] + "assembled/barcode_{barcode}/{taxon}_{taxid}/mapped.ref.paf"
     shell:
-        "minimap2 -n 1 -m 1 -M 1 {input.ref} {input.reads} > {output}"
+        """
+        sed -i 's/kraken:taxid/kraken_taxid/g' {input.ref}
+        minimap2 -n 1 -m 1 -M 1 {input.ref} {input.reads} > {output}
+        """
+
 
 rule racon1:
     input:
