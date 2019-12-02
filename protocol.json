@@ -2,9 +2,6 @@
   "name": "ARTIC Seawater classification protocol v0.1",
   "description": "Kraken based classification based on mitochondrial gene COI (Animalia).",
   "url": "http://artic.network/",
-  "annotationOptions":{
-    "reference_fields":"genus[genus];species[species]"
-  },
   "displayOptions": {
     "referenceMapCountThreshold" : 0
   }
