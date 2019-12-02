@@ -4,7 +4,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - biopython=1.74
+  - biopython=1.73
   - coreutils=8.25
   - nodejs=12.11.1
   - minimap2=2.17
@@ -15,7 +15,7 @@ dependencies:
   - medaka=0.10.0
   - artic-network::rampart
   - kraken2=2.0.8-beta
-  - krona=2.7.1
+  - krona=2.7.1=pl526_0
   - watchdog=0.8.3=py36_0
   - yarn=1.10.1
   - curl
