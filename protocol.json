@@ -4,5 +4,8 @@
   "url": "http://artic.network/",
   "annotationOptions":{
     "reference_fields":"genus[genus];species[species]"
+  },
+  "displayOptions": {
+    "referenceMapCountThreshold" : 0
   }
 }

@@ -7,8 +7,5 @@
       "description": "",
       "barcodes": [ "NB01" ]
     }
-  ],
-  "displayOptions": {
-    "referenceMapCountThreshold" : 0
-  }
+  ]
 }
