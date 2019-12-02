@@ -3,28 +3,34 @@ RAMPART protocol for mitochondrial COI based classifier.
 
 ## Installing and set up
 1. First clone the repository
-```
-git clone https://github.com/rmcolq/rampart-coi.git
-cd rampart-coi
-```
+   ```
+   git clone https://github.com/rmcolq/rampart-coi.git
+   cd rampart-coi
+   ```
 2. Setup and activate the conda environment
-```
-conda env create -f environment.yml
-source activate rampart-coi
-```
+   ```
+   conda env create -f environment.yml
+   source activate rampart-coi
+   ```
 3. Download (large) reference files and build kraken database (takes about 10 minutes)
    
-   First copy two big files   
+   First make a kraken data directory (`mkdir kraken_db/data`) and copy two big files   
      - `BOLD-Animalia-COI5p_old.fasta`  
      - `NCBI_Animalia_BOLD_COI_250819.fasta`
    from dropbox (`VirusEvolution Dropbox/Group/Seawater_WIMP/kraken_data/`) to `kraken_db/data`
-      
-```           
-cd kraken_db/
-bash create_db.sh 
-cd ..
-```
-4. (Optional) Copy references file `BOLD_COI_references_by_phylum.fasta.gz` from dropbox (`VirusEvolution Dropbox/Group/Seawater_WIMP/heatmap_references/`)
+   
+   Then construct the database with:   
+   ```           
+   cd kraken_db/
+   bash create_db.sh 
+   cd ..
+   ```
+4. (Optional) Copy references file `BOLD_COI_references_by_phylum.fasta.gz` from dropbox (`VirusEvolution Dropbox/Group/Seawater_WIMP/heatmap_references/`) and rename as `references.fasta`. 
+
+   Alternatively, download relevant references from NCBI by searching the nucleotide database for `[species of interest] coi` and filtering search results (Species=Animals, Compartment=Mitochondrion, Sequence Type=Nucleotide). Download by clicking on the `send to` drop down option at the top of the search results (Choose Destination=File, Format=FASTA, Sort by=Taxonomy ID, uncheck Show GI). Then run a python script to get this references file in the correct format using:
+   ```
+   python3 process_reference.py [downloaded_fasta]
+   ```
 
 ## Running 
 
