@@ -1,10 +1,11 @@
 {
-	"label": "COI-5P",
-	"length": 16000,
+	"label": "default",
+	"length": 1000,
 	"genes": {
-	},
-	"reference": {
-                "label": "Drosophila mauritiana",
-		"accession": "NC_005779.1"
+		"reference": {
+			"start": 1,
+			"end": 1000,
+			"strand": 1
+		}
 	}
 }
