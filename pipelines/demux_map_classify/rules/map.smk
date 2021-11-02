@@ -3,7 +3,7 @@ rule minimap2:
         fastq= config["input_path"] + "/{filename_stem}.fastq",
         ref= config["references_file"]
     output:
-        temp(config["output_path"] + "/temp/{filename_stem}.paf")
+        config["output_path"] + "/temp/{filename_stem}.paf"
     shell:
         """
         minimap2 -x map-ont \
